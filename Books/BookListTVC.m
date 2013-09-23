@@ -27,8 +27,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    //[self.delegate bookListTVCDelegate:self.fetchedResultsController.fetchedObjects.count];
+    [self.searchBar setSearchBarStyle:UISearchBarStyleMinimal];
+
+       //[self.delegate bookListTVCDelegate:self.fetchedResultsController.fetchedObjects.count];
     
     //Perform fetch
     NSError *error=nil;
@@ -57,7 +58,7 @@
         NSLog(@"Unresolved error %@", error);
     }
     [self.tableView reloadData];
-    [self.searchBar resignFirstResponder];
+    
     return;
     
 }
@@ -82,12 +83,15 @@
         bdtvc.currentBook=newBook;
         bdtvc.title=@"Add a Book";
         
+        
+        
     }else{
         NSIndexPath *IndexPath=[self.tableView indexPathForSelectedRow];
         // Book *selectedBook=(Book *)[self.fetchedResultsController objectAtIndexPath:IndexPath];
         self.selectedBook=[self.fetchedResultsController objectAtIndexPath:IndexPath];
         bdtvc.currentBook=self.selectedBook;
         bdtvc.title=@"Book Details";
+    
     }
 }
 
@@ -116,10 +120,12 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
     // Configure the cell...
-    Book *book=[self.fetchedResultsController objectAtIndexPath:indexPath];
-    //self.selectedBook=[self.fetchedResultsController objectAtIndexPath:indexPath];
-    cell.textLabel.text=book.title;
-    cell.detailTextLabel.text=book.author;
+    //Book *book=[self.fetchedResultsController objectAtIndexPath:indexPath];
+    self.selectedBook=[self.fetchedResultsController objectAtIndexPath:indexPath];
+    cell.textLabel.text=self.selectedBook.title;
+    NSString *byAuthorAndStatus=[NSString stringWithFormat:@"by %@ %@", self.selectedBook.author,self.selectedBook.status.readingStatus];
+    cell.detailTextLabel.text=byAuthorAndStatus;
+    //cell.detailTextLabel.text=book.author;
     
     /*Book *book=[self.fetchedResultsController objectAtIndexPath:indexPath];
      //NSString *titleGenreCollection=[NSString stringWithFormat:@"%@ %@ %@", book.title, book.genre.genre, book.favorite.favorite];
@@ -181,7 +187,7 @@
     NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptorZero,sortDescriptor,sortDescriptorTwo,nil];
     [fetchRequest setSortDescriptors:sortDescriptors];
     
-    _fetchedResultsController=[[NSFetchedResultsController alloc]initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
+    _fetchedResultsController=[[NSFetchedResultsController alloc]initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:@"status.readingStatus" cacheName:nil];
     _fetchedResultsController.delegate=self;
     return _fetchedResultsController;
     
@@ -211,7 +217,7 @@
             UITableViewCell *cell=[self.tableView cellForRowAtIndexPath:indexPath];
             cell.textLabel.text=changedBook.title;
             //cell.detailTextLabel.text=changedBook.genre.genre;
-            NSString *byAuthor=[NSString stringWithFormat:@"by %@", changedBook.author];
+            NSString *byAuthor=[NSString stringWithFormat:@"%@", changedBook.author];
             cell.detailTextLabel.text=byAuthor;
         }
             
@@ -231,6 +237,11 @@
 }
 
 
+//Resigning searchbar keyboard
+-(NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [self.searchBar resignFirstResponder];
+    return indexPath;
+}
 
 
 

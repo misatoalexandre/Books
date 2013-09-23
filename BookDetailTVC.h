@@ -34,6 +34,7 @@
 @property (weak, nonatomic) IBOutlet UITableViewCell *CollectionTableViewCell;
 @property (weak, nonatomic) IBOutlet UITableViewCell *readingStatusTableView;
 
+
 - (IBAction)save:(id)sender;
 
 - (IBAction)textResignFirstResponder:(id)sender;
@@ -41,7 +42,6 @@
 @end
 
 @protocol BookDetailTVCDelegate
-
 -(void)bookDetailTVCDelegateSave:(BookDetailTVC *)controller;
 
 @end

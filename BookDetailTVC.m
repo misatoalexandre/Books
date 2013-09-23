@@ -37,12 +37,12 @@
     self.genreTableViewCell.textLabel.text=self.currentBook.genre.genre;
     self.CollectionTableViewCell.textLabel.text=self.currentBook.favorite.favorite;
     self.readingStatusTableView.textLabel.text=self.currentBook.status.readingStatus;
-   // self.readingStatusTableView.detailTextLabel.text=self.currentBook.status.updateDate;
+    // self.readingStatusTableView.detailTextLabel.text=self.currentBook.status.updateDate;
     
-
+    
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
- 
+    
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
@@ -118,7 +118,7 @@
 
 - (IBAction)save:(id)sender {
     //Saving Book Entity's attributes
-   
+    
     [self.currentBook setTitle:self.titleField.text];
     [self.currentBook setAuthor:self.authorField.text];
     [self.currentBook setNotes:self.notesField.text];
@@ -129,12 +129,9 @@
     [self.currentBook setGenre:self.selectedGenre];
     [self.currentBook setFavorite:self.selectedCollection];
     [self.currentBook setStatus:self.selectedStatus];
-   
-    
     
     [self.delegate bookDetailTVCDelegateSave:self];
     
-     
 }
 
 - (IBAction)textResignFirstResponder:(UITextField *)sender {
